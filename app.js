@@ -12,8 +12,9 @@ async function getData() {
     }
 }
 
-async function printTable() {
+async function printData() {
     const results = await getData();
+
     const tableBody = document.getElementById('table-body');
     results.forEach(item => {
         const row = document.createElement('tr');
@@ -23,7 +24,21 @@ async function printTable() {
             <td>${item.address.city}</td>
         `;
         tableBody.appendChild(row);
+
+
+        document.getElementById('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = document.getElementById('id').value;
+            const user = results.find(user => user.id == input);
+
+            const resultDiv = document.getElementById('result');
+            if (user) {
+                resultDiv.innerHTML = `<p>Name: ${user.name}</p><p>Phone: ${user.phone}</p>`;
+            } else {
+                resultDiv.innerHTML = '<p>User not found</p>';
+            }
+        });
     });
 }
 
-printTable()
+printData()
